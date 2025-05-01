@@ -50,6 +50,8 @@ h4, h5 {
     margin: 0 0 10px 0;
 }
 
+@media (min-width: 340px) {
+
 /* Блок алгоритма */
 .algorithm-block {
     border: 1px solid var(--medium);
@@ -78,7 +80,6 @@ h4, h5 {
     line-height: var(--line-height-dense);
     margin: 15px 0;
     overflow-x: auto;
-    border-left: 3px solid var(--primary);
 }
 
 /* Консоль */
@@ -117,6 +118,7 @@ h4, h5 {
 /* Группа ввода */
 .input-group {
     display: flex;
+    align-items: center;
     gap: 10px;
     margin-bottom: 15px;
     width: 100%;
@@ -136,7 +138,7 @@ h4, h5 {
     padding: 10px 14px;
     border-radius: 8px;
     border: 1px solid var(--medium);
-    width: 210px;
+    width: 180px;
     font-family: 'Roboto Mono', monospace;
     background: white;
     transition: all 0.2s;
@@ -150,6 +152,7 @@ h4, h5 {
 
 /* Кнопка */
 .console-button {
+    height: 42px;
     font-size: var(--text-md);
     padding: 10px 20px;
     background: var(--primary);
@@ -167,12 +170,8 @@ h4, h5 {
 
 .console-button:hover {
     background: #5a8bc5;
-    transform: translateY(-1px);
 }
 
-.console-button:active {
-    transform: translateY(0);
-}
 
 /* Вывод результатов */
 .output {
@@ -181,22 +180,20 @@ h4, h5 {
     margin-top: 15px;
     background: var(--light);
     border-radius: 8px;
-    border-left: 3px solid var(--primary);
     font-family: 'Roboto Mono', monospace;
 }
 
 .output.success {
-    border-left-color: var(--secondary);
     background-color: rgba(127, 183, 126, 0.08);
 }
 
 .output.error {
-    border-left-color: var(--tertiary);
     background-color: rgba(255, 155, 155, 0.08);
+}
 }
 
 /* Адаптация для мобильных */
-@media (max-width: 690px) {
+@media (min-width: 690px) {
     :root {
         --text-xl: 22px;
         --text-lg: 18px;
@@ -209,9 +206,14 @@ h4, h5 {
     .input-group {
         flex-direction: column;
     }
-    
+ 
+    .console-input{
+        width: 420px;
+    }
+
     .console-button {
-        width: 100%;
+        width: 150px;
+        height: 50px;
     }
 }
 
@@ -223,5 +225,9 @@ h4, h5 {
     
     .code, .math-notation {
         font-size: var(--text-md);
+    }
+
+    .console-input{
+        width: 520px;
     }
 }
