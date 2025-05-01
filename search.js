@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('.search-input');
     const resultsContainer = document.querySelector('.search-results');
     
-    // Функция поиска по заголовкам
+    // Функция поиска по заголовкам (только h2 и h3)
     function searchHeadings(query) {
-        const headings = document.querySelectorAll('h2, h3, h4, h5');
+        const headings = document.querySelectorAll('h2, h3'); // Исправленный селектор
         resultsContainer.innerHTML = '';
         
         if (!query.trim()) {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 matches.push({
                     element: heading,
                     text: heading.textContent,
-                    id: heading.id || heading.parentElement.id
+                    id: heading.id || heading.parentElement.id || heading.closest('.algorithm-block')?.id
                 });
             }
         });
@@ -33,33 +33,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 resultItem.textContent = match.text;
                 
                 resultItem.addEventListener('click', () => {
-                    if (match.id) {
-                        // Прокрутка с учетом фиксированного хедера
-                        const element = document.getElementById(match.id);
-                        const headerHeight = document.querySelector('.header').offsetHeight;
+                    // Прокрутка с учетом фиксированного хедера
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const element = match.id ? document.getElementById(match.id) : match.element;
+                    
+                    if (element) {
                         const elementPosition = element.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 10; // -10 для небольшого отступа
                         
                         window.scrollTo({
                             top: offsetPosition,
                             behavior: 'smooth'
                         });
-                    } else {
-                        match.element.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                        
+                        // Подсветка
+                        element.classList.add('highlight');
+                        setTimeout(() => {
+                            element.classList.remove('highlight');
+                        }, 2000);
                     }
                     
-                    // Подсветка найденного элемента
-                    const target = match.element;
-                    target.classList.add('highlight');
-                    setTimeout(() => {
-                        target.classList.remove('highlight');
-                    }, 2000);
-                    
-                    // Закрываем результаты поиска
                     resultsContainer.style.display = 'none';
+                    searchInput.value = match.text; // Подставляем текст заголовка в поиск
                 });
                 
                 resultsContainer.appendChild(resultItem);
@@ -71,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Debounce
+    // Debounce функция
     function debounce(func, delay) {
         let timeoutId;
         return function() {
@@ -82,24 +77,20 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
-    // Обработчик поиска с debounce
-    const debouncedSearch = debounce(function(e) {
+    // Обработчики событий
+    searchInput.addEventListener('input', debounce(function(e) {
         searchHeadings(e.target.value);
-    }, 300);
+    }, 300));
     
-    searchInput.addEventListener('input', debouncedSearch);
-    
-    // Закрытие результатов при клике вне области
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-wrapper')) {
-            resultsContainer.style.display = 'none';
-        }
-    });
-    
-    // Показать результаты при фокусе, если есть текст
     searchInput.addEventListener('focus', function() {
         if (this.value.trim()) {
             searchHeadings(this.value);
+        }
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-wrapper')) {
+            resultsContainer.style.display = 'none';
         }
     });
 });

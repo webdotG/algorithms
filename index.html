@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    
+
     <header class="header">
         <div class="search-wrapper">
             <input type="text" class="search-input" placeholder="Поиск по заголовкам...">
@@ -63,13 +63,13 @@
     </div>
     
     <div class="console">
-        <h3 class="console-title">binarySearch(<span class="param">arr</span>, <span class="param">item</span>)</h3>
+        <h2 class="console-title">binarySearch(<span class="param">arr</span>, <span class="param">item</span>)</h2>
         <p class="console-hint">Введите массив чисел и искомый элемент в формате: 
             <code> [11,2,5,0,6,9,],9 </code>
         </p>
         <div class="input-group">
             <div class="function-call">
-                <span class="console-title">binarySearch(</span>
+                <h3 class="console-title">binarySearch(</h3>
                 <input type="text" id="binary-input" 
                             placeholder="[ ... ], ... " 
                             class="console-input">
@@ -117,11 +117,11 @@
         </div>
         
         <div class="console">
-            <h3 class="console-title">selectionSort(<span class="param">массив</span>)</h3>
+            <h2 class="console-title">selectionSort(<span class="param">массив</span>)</h2>
             <p class="console-hint">Попробуйте: <code>[5,7,4,0,3,1,4,11]</code></p>
             <div class="input-group">
                 <div class="function-call">
-                    <span class="console-title">selectionSort(</span>
+                    <h3 class="console-title">selectionSort(</h3>
                     <input type="text" id="selection-sort-input" 
                                 placeholder="[ ... ]" 
                                 class="console-input">
@@ -129,7 +129,7 @@
                 </div>
                 <button onclick="runSelectionSort()" class="console-button">
                     <span class="button-text">Сортировать</span>
-                    <span class="button-icon">↻</span>
+                    <span class="button-icon">→</span>
                 </button>
             </div>
             <div class="output" id="selection-sort-output"></div>
@@ -138,10 +138,10 @@
     
     
     <div class="algorithm-block" id="merge-sort-algorithm">
-        <h2>Сортировка слиянием</h2>
+        <h2>Сортировка слиянием - "Разделяй и властвуй"</h2>
         
         <div class="description">
-            <h4>"Разделяй и властвуй" — стабильный алгоритм сортировки</h4>
+            <h4> стабильный алгоритм сортировки</h4>
 
         <div class="business-use">
             <h4>Практическое применение:</h4>
@@ -171,11 +171,11 @@
         </div>
         
         <div class="console">
-            <h3 class="console-title">mergeSort(<span class="param">массив</span>)</h3>
+            <h2 class="console-title">mergeSort(<span class="param">массив</span>)</h2>
             <p class="console-hint">Попробуйте: <code>[5,11,4,8,0,3]</code> </p>
             <div class="input-group">
                 <div class="function-call">
-                    <span class="console-title">mergeSort(</span>
+                    <h3 class="console-title">mergeSort(</h3>
                     <input type="text" id="merge-sort-input" 
                                 placeholder="[ ... ]" 
                                 class="console-input">
@@ -183,7 +183,7 @@
                 </div>
                 <button onclick="runMergeSort()" class="console-button">
                     <span class="button-text">Выполнить</span>
-                    <span class="button-icon">↻</span>
+                    <span class="button-icon">→</span>
                 </button>
             </div>
             <div class="output" id="merge-sort-output"></div>
