@@ -8,10 +8,10 @@
     --dark: #5A5A5A;
     
     /* Размеры текста */
-    --text-xs: 14px;
-    --text-md: 16px;
-    --text-lg: 20px;
-    --text-xl: 25px;
+    --text-xs: 16px;
+    --text-md: 18px;
+    --text-lg: 25px;
+    --text-xl: 35px;
     
     /* Межстрочные интервалы */
     --line-height: 1.6;
@@ -213,7 +213,7 @@ h4, h5 {
     }
 
     .console-button {
-        width: 150px;
+        width: 175px;
         height: 50px;
     }
 }
