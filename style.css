@@ -95,6 +95,7 @@ h4, h5 {
     color: var(--primary);
     margin-bottom: 12px;
     font-weight: 500;
+    text-align: left;
 }
 
 .console-hint {
