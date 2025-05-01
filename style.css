@@ -118,6 +118,7 @@ h4, h5 {
 /* Группа ввода */
 .input-group {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
@@ -230,4 +231,31 @@ h4, h5 {
     .console-input{
         width: 520px;
     }
+}
+
+.business-use {
+    background-color: rgba(108, 155, 207, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 3px solid var(--primary);
+}
+
+.business-use h4 {
+    color: var(--primary);
+    margin-top: 0;
+}
+
+.business-use ul {
+    padding-left: 20px;
+}
+
+.business-use li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.business-use p {
+    font-style: italic;
+    margin-bottom: 0;
 }

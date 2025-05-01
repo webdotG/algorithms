@@ -30,7 +30,7 @@ function binarySearch(arr, item) {
         }
     }
 
-    return null
+    return -1 //null
 }
 
 const arr = [1, 3, 5, 7, 9];
