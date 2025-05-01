@@ -74,6 +74,6 @@ function runBinarySearch() {
         output.innerHTML = `❌ Элемент <strong>${target}</strong> не найден в массиве: [${arr.join(', ')}]`;
     } else {
         output.classList.add('success');
-        output.innerHTML = `✅ Найден элемент <strong>${target}</strong> на позиции ${result} в массиве: [${arr.join(', ')}]`;
+        output.innerHTML = `✅ Найден элемент <strong>${target}</strong> с индексом ${result} в массиве: [${arr.join(', ')}]`;
     }
 }
