@@ -108,7 +108,7 @@ h4, h5 {
 
 .console-hint code {
     display: block;
-    width: 210px;
+    width: 100%;
     background: var(--light);
     padding: 2px 4px;
     border-radius: 4px;
@@ -139,7 +139,7 @@ h4, h5 {
     padding: 10px 14px;
     border-radius: 8px;
     border: 1px solid var(--medium);
-    width: 180px;
+    width: 100%;
     font-family: 'Roboto Mono', monospace;
     background: white;
     transition: all 0.2s;
@@ -207,9 +207,9 @@ h4, h5 {
     .input-group {
         flex-direction: column;
     }
- 
+
     .console-input{
-        width: 420px;
+        width: 520px;
     }
 
     .console-button {
@@ -228,9 +228,11 @@ h4, h5 {
         font-size: var(--text-md);
     }
 
+
     .console-input{
-        width: 520px;
+        width: 690px;
     }
+
 }
 
 .business-use {
