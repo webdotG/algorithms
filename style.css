@@ -1,0 +1,226 @@
+:root {
+    /* Цветовая палитра */
+    --primary: #6C9BCF;
+    --secondary: #7FB77E;
+    --tertiary: #FF9B9B;
+    --light: #F7F5F2;
+    --medium: #E8E4E1;
+    --dark: #5A5A5A;
+    
+    /* Размеры текста */
+    --text-xs: 14px;
+    --text-md: 16px;
+    --text-lg: 20px;
+    --text-xl: 25px;
+    
+    /* Межстрочные интервалы */
+    --line-height: 1.6;
+    --line-height-dense: 1.4;
+}
+
+/* Базовые стили */
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-md);
+    line-height: var(--line-height);
+    padding: 15px;
+    margin: 0 auto;
+    color: var(--dark);
+    background-color: white;
+}
+
+/* Заголовки */
+h2 {
+    font-size: var(--text-xl);
+    color: var(--primary);
+    font-weight: 600;
+    margin: 0 0 15px 0;
+}
+
+h3 {
+    font-size: var(--text-lg);
+    color: var(--primary);
+    font-weight: 500;
+    margin: 0 0 12px 0;
+}
+
+h4, h5 {
+    font-size: var(--text-md);
+    font-weight: 500;
+    margin: 0 0 10px 0;
+}
+
+/* Блок алгоритма */
+.algorithm-block {
+    border: 1px solid var(--medium);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+/* Текстовые блоки */
+.description {
+    margin-bottom: 20px;
+    color: var(--dark);
+    font-size: var(--text-md);
+    line-height: var(--line-height);
+}
+
+/* Блоки кода */
+.code, .math-notation {
+    background-color: var(--light);
+    padding: 16px;
+    border-radius: 8px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: var(--text-xs);
+    line-height: var(--line-height-dense);
+    margin: 15px 0;
+    overflow-x: auto;
+    border-left: 3px solid var(--primary);
+}
+
+/* Консоль */
+.console {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--medium);
+    margin: 25px 0;
+}
+
+.console-title {
+    font-size: var(--text-lg);
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.console-hint {
+    font-size: var(--text-xs);
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+
+.console-hint code {
+    display: block;
+    width: 210px;
+    background: var(--light);
+    padding: 2px 4px;
+    border-radius: 4px;
+    border: 1px solid var(--medium);
+}
+
+/* Группа ввода */
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.function-call {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+/* Поле ввода */
+.console-input {
+    font-size: var(--text-md);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--medium);
+    width: 210px;
+    font-family: 'Roboto Mono', monospace;
+    background: white;
+    transition: all 0.2s;
+}
+
+.console-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 155, 207, 0.1);
+}
+
+/* Кнопка */
+.console-button {
+    font-size: var(--text-md);
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.console-button:hover {
+    background: #5a8bc5;
+    transform: translateY(-1px);
+}
+
+.console-button:active {
+    transform: translateY(0);
+}
+
+/* Вывод результатов */
+.output {
+    font-size: var(--text-md);
+    padding: 12px 16px;
+    margin-top: 15px;
+    background: var(--light);
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+    font-family: 'Roboto Mono', monospace;
+}
+
+.output.success {
+    border-left-color: var(--secondary);
+    background-color: rgba(127, 183, 126, 0.08);
+}
+
+.output.error {
+    border-left-color: var(--tertiary);
+    background-color: rgba(255, 155, 155, 0.08);
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 690px) {
+    :root {
+        --text-xl: 22px;
+        --text-lg: 18px;
+    }
+    
+    .algorithm-block {
+        padding: 16px;
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .console-button {
+        width: 100%;
+    }
+}
+
+/* Адаптация для десктопа */
+@media (min-width: 950px) {
+    body {
+        max-width: 900px;
+    }
+    
+    .code, .math-notation {
+        font-size: var(--text-md);
+    }
+}

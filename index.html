@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://www.svgrepo.com/show/391147/binary.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <title>Algorithm</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code, .math-notation { font-family: 'Roboto Mono', monospace; }
+    </style>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="algorithm-block" id="binary-algorithm">
+        <h2>Бинарный поиск</h2>
+        
+        <div class="description">
+            <h4>Алгоритм работает только на отсортированном массиве.</h5>
+            <div class="math-notation">
+                <p>log<sub>2</sub>n — это степень, в которую нужно возвести 2, чтобы получить n</p>
+                <p>log₂50 → между 2<sup>5</sup>=32 и 2<sup>6</sup>=64 → ≈5.6 (6 шагов)</p>
+                <p>log₂200 → между 2<sup>7</sup>=128 и 2<sup>8</sup>=256 → ≈7.6 (8 шагов)</p>
+                
+                <h5>Правило "делим пополам":</h5>
+                <p>Для бинарного поиска log₂n — это сколько раз нужно разделить n на 2, чтобы получить 1.</p>
+                
+                <pre>Пример для n=100:
+        100 / 2 = 50
+        50 / 2 = 25
+        25 / 2 = 12.5
+        12.5 / 2 = 6.25
+        6.25 / 2 = 3.125
+        3.125 / 2 = 1.5625
+        1.5625 / 2 = 0.78125 <i>(меньше 1, останавливаемся)</i>
+        <b>Итого: 7 шагов</b></pre>
+            </div>
+        </div>
+        
+        <div class="code">
+            <pre><code id="binary-code"></code></pre>
+        </div>
+        
+        <div class="console">
+            <h3 class="console-title">binarySearch(<span class="param">arr</span>, <span class="param">item</span>)</h3>
+            <p class="console-hint">Введите массив чисел и искомый элемент в формате: <code> [1,2,3 .....], 5 </code></p>
+            <div class="input-group">
+                <div class="function-call">
+                    <span class="console-title">binarySearch(</span>
+                    <input type="text" id="binary-input" 
+                                placeholder="[1,4,9,0,5,7...], 0" 
+                                class="console-input">
+                    <span class="console-title">)</span>
+                </div>
+                <button onclick="runBinarySearch()" class="console-button">
+                    <span class="button-text">Выполнить</span>
+                    <span class="button-icon">→</span>
+                </button>
+            </div>
+            <div class="output" id="binary-output"></div>
+        </div>
+
+    </div>
+    <script src="binary_script.js"></script>
+    <script src="binary_algorithm.js"></script>
+</body>
+</html>
