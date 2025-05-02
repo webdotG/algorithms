@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Вставляем код алгоритма в блок
-    const codeElement = document.getElementById('merge-sort-code');
     const code = `function merge(left, right) {
     let result = [];
     let leftIndex = 0;
@@ -26,40 +24,43 @@ function mergeSort(arr) {
     
     return merge(mergeSort(left), mergeSort(right));
 }`;
-    
-    codeElement.textContent = code;
+
+    document.getElementById('merge-sort-code').textContent = code;
+    Prism.highlightAll(); // Активируем подсветку синтаксиса
 });
 
 function runMergeSort() {
     const input = document.getElementById('merge-sort-input');
     const output = document.getElementById('merge-sort-output');
     const inputText = input.value.trim();
-    
-    output.innerHTML = '';
-    output.className = 'output';
 
+    // Очищаем предыдущий вывод
+    output.innerHTML = '';
+    output.className = 'output'; // Сбрасываем классы
+
+    // Если поле пустое, просто выходим
+    if (!inputText) return;
+
+    // Парсим введенные данные
+    let arr;
     try {
-        // Проверяем введенные данные
-        if (!inputText.startsWith('[') || !inputText.endsWith(']')) {
-            throw new Error('Используйте формат: [3,1,4,2]');
+        arr = JSON.parse(inputText);
+        if (!Array.isArray(arr) || !arr.every(num => typeof num === 'number')) {
+            output.innerHTML = '❌ Ошибка: ожидается массив чисел';
+            output.classList.add('error');
+            return;
         }
-        
-        const arr = JSON.parse(inputText);
-        if (!Array.isArray(arr)) {
-            throw new Error('Введите корректный массив');
-        }
-        
-        // Выполняем сортировку
-        const sortedArray = mergeSort(arr);
-        
-        // Форматируем вывод
-        output.innerHTML = `
-            <div class="result-line">Исходный : <strong>${inputText}</strong></div>
-            <div class="result-line">Отсортированный : <strong>[${sortedArray.join(', ')}]</strong></div>
-        `;
-        output.classList.add('success');
     } catch (e) {
-        output.innerHTML = `❌ Ошибка: ${e.message}`;
+        output.innerHTML = '❌ Ошибка: неверный формат JSON';
         output.classList.add('error');
+        return;
     }
+
+    // Выполняем сортировку
+    const result = mergeSort(arr);
+
+    // Форматируем вывод
+    output.classList.add('show-result');
+    output.classList.add('success');
+    output.innerHTML = `✅ Отсортированный массив: [${result.join(', ')}]`;
 }

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const code = `function findKeyInArray(box) {
+    const code = `// Поиск в массиве
+function findKeyInArray(box) {
     if (typeof box === 'string') {
         if (box.toLowerCase().includes('key')) {
             return { 
@@ -21,14 +22,46 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     return { found: false };
+}
+
+// Поиск в объекте
+function findKeyInObject(box) {
+    if (box.isKey) {
+        return { 
+            found: true, 
+            message: \`🔑 Нашли ключ в \${box.name}!\`,
+            box: box 
+        };
+    }
+    
+    for (const innerBox of box.innerBoxes) {
+        const result = findKeyInObject(innerBox);
+        if (result.found) {
+            return result;
+        }
+    }
+    
+    return { found: false };
 }`;
 
     document.getElementById('recursive-code').textContent = code;
+    Prism.highlightAll(); // Активируем подсветку синтаксиса
+
+    // Обновление плейсхолдера при смене типа структуры
+    document.getElementById('structure-type').addEventListener('change', function() {
+        const input = document.getElementById('recursive-input');
+        if (this.value === 'array') {
+            input.placeholder = '["Коробка 1", ["Коробка 2 key"]]';
+        } else {
+            input.placeholder = '{"name":"Коробка 1","isKey":false,"innerBoxes":[{"name":"Коробка 2","isKey":false,"innerBoxes":[{"name":"Коробка 3","isKey":true,"innerBoxes":[]}]}]}';
+        }
+    });
 });
 
 function runRecursiveSearch() {
     const input = document.getElementById('recursive-input');
     const output = document.getElementById('recursive-output');
+    const structureType = document.getElementById('structure-type').value;
     const inputText = input.value.trim();
 
     // Очищаем предыдущий вывод
@@ -38,19 +71,33 @@ function runRecursiveSearch() {
     // Если поле пустое, просто выходим
     if (!inputText) return;
 
-    // Парсим введенный массив
-    let arr;
+    // Парсим введенные данные
+    let data;
     try {
-        arr = JSON.parse(inputText);
-        if (!Array.isArray(arr)) throw new Error('Введено не массив');
+        data = JSON.parse(inputText);
     } catch (e) {
-        output.innerHTML = '❌ Ошибка: неверный формат массива. Используйте формат: ["Коробка 1", ["Коробка 2 key"]]';
+        output.innerHTML = '❌ Ошибка: неверный формат JSON';
         output.classList.add('error');
         return;
     }
 
-    // Запускаем поиск
-    const result = findKeyInArray(arr);
+    // Запускаем поиск в зависимости от типа структуры
+    let result;
+    if (structureType === 'array') {
+        if (!Array.isArray(data)) {
+            output.innerHTML = '❌ Ошибка: ожидается массив';
+            output.classList.add('error');
+            return;
+        }
+        result = findKeyInArray(data);
+    } else {
+        if (!data || typeof data !== 'object' || !('name' in data && 'isKey' in data && 'innerBoxes' in data)) {
+            output.innerHTML = '❌ Ошибка: объект должен содержать поля name, isKey и innerBoxes';
+            output.classList.add('error');
+            return;
+        }
+        result = findKeyInObject(data);
+    }
 
     // Форматируем вывод
     output.classList.add('show-result');
@@ -59,6 +106,6 @@ function runRecursiveSearch() {
         output.innerHTML = result.message;
     } else {
         output.classList.add('error');
-        output.innerHTML = '❌ Ключ не найден в массиве!';
+        output.innerHTML = '❌ Ключ не найден!';
     }
 }
