@@ -17,6 +17,8 @@
             <div class="search-results"></div>
         </div>
     </header>
+    <button id="nav-button" class="nav-button">Меню</button>
+    <div id="nav-list" class="nav-list"></div>
 
     <div class="algorithm-block" id="binary-algorithm">
         <h2>Бинарный поиск</h2>
@@ -379,7 +381,7 @@
     </div>
 
 
-    <div class="algorithm-block" id="hash-table-algorithm">
+    <!-- <div class="algorithm-block" id="hash-table-algorithm">
         <h2>Хеш-таблицы - "Ключи и значения"</h2>
         
         <div class="description">
@@ -406,50 +408,14 @@
     4. Проблемы: коллизии и плохая хеш-функция
             </pre>
     
-            <div class="math-notation">     
-                <h4>Пример:</h4>
-                <pre>
-    Хеш-таблица для цен продуктов:
-    1. Вставляем: { "яблоко": 0.67, "молоко": 1.49 }
-    2. Ищем: ключ "яблоко" → 0.67
-    3. Удаляем: ключ "молоко"
-    Результат: { "яблоко": 0.67 }
-                </pre>
-                <h4 class="console-title">Сложность:</h4>
-                <pre>
-    Время: O(1) в среднем для вставки, поиска, удаления
-           O(n) в худшем случае (при коллизиях)
-    Память: O(n), где n — количество пар ключ-значение
-                </pre>
-            </div>
-        </div>
-    
-        <div class="code">
-            <pre><code id="hash-table-code" class="language-javascript"></code></pre>
-        </div>
-        
-        <div class="console">
-            <h2 class="console-title">HashTable(<span class="param">операция, ключ, значение</span>)</h2>
-            <p class="console-hint">Попробуйте: <code>"set, яблоко, 0.67"</code>, <code>"get, яблоко"</code>, <code>"delete, яблоко"</code></p>
-            <div class="input-group">
-                <div class="function-call">
-                    <h3 class="console-title">HashTable(</h3>
-                    <input type="text" id="hash-table-input" placeholder="операция, ключ, [значение]" class="console-input">
-                    <span class="console-title">)</span>
-                </div>
-                <button onclick="runHashTable()" class="console-button">
-                    <span class="button-text">Выполнить</span>
-                    <span class="button-icon">→</span>
-                </button>
-            </div>
-            <div class="output" id="hash-table-output"></div>
-        </div>
+            
     </div>
-    
+     -->
 
     <!-- Prism.js JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="hash_table_script.js"></script>
+    <!-- <script src="hash_table_script.js"></script> -->
+    <script src="script_nav.js"></script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
     <script src="search.js"></script>
     <script src="quicksort.js"></script>
     <script src="quicksort_script.js"></script>
