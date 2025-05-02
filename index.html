@@ -23,7 +23,45 @@
 
     <div class="algorithm-block" id="binary-algorithm">
         <h2 id="binary-algorithm-title">Бинарный поиск</h2>
-        
+
+        <div class="grid-container">
+            <div id="node-1-turquoise" class="node">1</div>
+            <div id="node-2-mint" class="node">2</div>
+            <div id="node-3-peach" class="node">3</div>
+            <div id="node-4-light-lavender" class="node">4</div>
+            <div id="node-5-pale-yellow" class="node">5</div>
+            <div id="node-6-plum" class="node">6</div>
+            <div id="node-7-pale-turquoise" class="node">7</div>
+            <div id="node-8-rose" class="node">8</div>
+            <svg>
+                <!-- Зелёный круг знакомства с центром в узле 1 -->
+                <circle cx="135" cy="135" r="90" fill="none" stroke="green" stroke-width="1"/>
+                <!-- Определение красной стрелки -->
+                <defs>
+                    <marker id="arrow" markerWidth="15" markerHeight="15" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="red"/>
+                    </marker>
+                </defs>
+                <!-- Красные рёбра со стрелками -->
+                <line x1="135" y1="135" x2="135" y2="195" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 1 (5,5) → 2 (7,5) -->
+                <line x1="135" y1="135" x2="195" y2="75" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 1 (5,5) → 3 (3,7) -->
+                <line x1="135" y1="135" x2="75" y2="75" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 1 (5,5) → 4 (3,3) -->
+                <line x1="135" y1="195" x2="15" y2="165" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 2 (7,5) → 6 (6,1) -->
+                <line x1="195" y1="75" x2="255" y2="15" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 3 (3,7) → 7 (1,9) -->
+                <line x1="75" y1="75" x2="15" y2="15" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 4 (3,3) → 5 (1,1) -->
+                <line x1="75" y1="75" x2="15" y2="165" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 4 (3,3) → 6 (6,1) -->
+                <line x1="255" y1="15" x2="255" y2="135" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 7 (1,9) → 8 (5,9) -->
+            </svg>
+            </div>
+                
         <div class="description">
             <h4>Алгоритм работает только на отсортированном массиве.</h4>
             <div class="business-use">
@@ -419,21 +457,7 @@
             <p>Социальная сеть: вы дружите с Алисой и Бобом, Алиса дружит с Клэр, Боб дружит с Клэр и Джоном, а Клэр и Джон дружат с Томом.</p>
             <div class="graph-visualization">
                 <h4>Схема графа:</h4>
-                <div class="graph-container">
-                    <div class="node" id="node-you">вы</div>
-                    <div class="node" id="node-alice">Алиса</div>
-                    <div class="node" id="node-bob">Боб</div>
-                    <div class="node" id="node-claire">Клэр</div>
-                    <div class="node" id="node-john">Джон</div>
-                    <div class="node" id="node-tom">Том</div>
-                    <div class="edge internal" id="edge-you-alice"></div>
-                    <div class="edge internal" id="edge-you-bob"></div>
-                    <div class="edge internal" id="edge-alice-claire"></div>
-                    <div class="edge internal" id="edge-bob-claire"></div>
-                    <div class="edge external" id="edge-bob-john"></div>
-                    <div class="edge external" id="edge-claire-tom"></div>
-                    <div class="edge external" id="edge-john-tom"></div>
-                </div>
+  
                 <p>
                     <strong>Легенда:</strong><br>
                     - Синие линии: внутренние пары (внутри одной группы, например, ваша компания).<br>
@@ -514,6 +538,8 @@
             <div class="output" id="bfs-output"></div>
         </div>
     </div>
+
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="script_nav.js"></script>
