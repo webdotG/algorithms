@@ -23,7 +23,6 @@
         font-family: 'Inter', -apple-system, sans-serif;
         font-size: var(--text-md);
         line-height: var(--line-height);
-        padding: 15px;
         margin: 0 auto;
         color: var(--dark);
         background-color: white;
@@ -48,57 +47,6 @@
         white-space: nowrap;
     }
 
-    /* Стили для кнопки навигации */
-    .nav-button {
-        position: fixed;
-        top: 95px;
-        right: 20px;
-        z-index: 3;
-        padding: 10px 15px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    .nav-list {
-        min-height: 420px;
-        position: absolute;
-        z-index: 3;
-        top: 1.5%;
-        right: 25px;
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        width: 250px;
-        max-height: 300px;
-        overflow-y: auto;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        display: none;
-        padding: 10px;
-    }
-    
-    .nav-list a {
-        display: block;
-        padding: 8px 12px;
-        color: #333;
-        text-decoration: none;
-        border-bottom: 1px solid #eee;
-        font-size: 14px;
-    }
-    
-    .nav-list a:hover {
-        background-color: #f5f5f5;
-    }
-    
-    .nav-list a:last-child {
-        border-bottom: none;
-    }
-
-
     /* Заголовки */
     h2 {
         font-size: var(--text-xl);
@@ -120,49 +68,99 @@
         margin: 0 0 10px 0;
     }
 
+/* Стили для хедера */
+.header {
+    width: 100%; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 3; 
+    padding: 15px;
+}
 
-    /* Стили для хедера */
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: #ffffff;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-        padding: 15px;
-    }
+/* Стили для кнопки навигации */
+.nav-button {
+    position: fixed;
+    top: 89px;
+    right: 12px;
+    z-index: 3;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: var(--text-md);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
 
+/* Стили для нав-листа */
+.nav-list {
+    position: absolute;
+    top: 142px; 
+    right: 42px; 
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 250px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 3; 
+    display: none;
+    padding: 10px;
+}
 
-    .search-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        position: relative;
-    }
+.nav-list a {
+    display: block;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
 
-    .search-input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 16px;
-        font-family: 'Inter', sans-serif;
-        box-sizing: border-box;
-    }
+.nav-list a:hover {
+    background-color: #f5f5f5;
+}
 
-    .search-results {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 0 0 4px 4px;
-        max-height: 300px;
-        overflow-y: auto;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        display: none;
-    }
+.nav-list a:last-child {
+    border-bottom: none;
+}
+
+/* Стили для поиска */
+.search-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 90; /* Ниже, чем у нав-листа */
+    display: none;
+}
 
     .search-result-item {
         padding: 12px 15px;
@@ -216,8 +214,11 @@
         }
     }
 
-    @media (min-width: 340px) {
+@media (min-width: 340px) {
 
+    body{
+        min-width: 340px;
+    }
     /* Блок алгоритма */
     .algorithm-block {
         margin-top: 75px;
@@ -367,7 +368,15 @@
         --text-xl: 22px;
         --text-lg: 18px;
     }
-    
+
+    .nav-button, .nav-list a{
+        font-size: var(--text-lg);
+    }
+
+    .nav-list{
+        width: 350px;
+        min-height: 420px;
+    }
     .algorithm-block {
         padding: 16px;
     }
@@ -396,6 +405,14 @@
         max-width: 900px;
     }
     
+
+    .nav-button, .nav-list a{
+        font-size: var(--text-xl);
+    }
+    .nav-list{
+        width: 420px;
+        min-height: 520px;
+    }
     .code, .math-notation {
         font-size: var(--text-md);
     }
