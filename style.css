@@ -83,10 +83,10 @@
 /* Стили для кнопки навигации */
 .nav-button {
     position: fixed;
-    top: 89px;
-    right: 12px;
+    top: 81px;
+    right: 10px;
     z-index: 3;
-    padding: 10px 15px;
+    padding: 6px 12px;
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -449,4 +449,100 @@
 .business-use p {
     font-style: italic;
     margin-bottom: 0;
+}
+
+/* Стили для визуализации графа */
+.graph-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.node {
+    position: absolute;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: #e0f7fa;
+    border: 1px solid #0288d1;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #0277bd;
+}
+
+/* Позиционирование узлов */
+#node-you { top: 50px; left: 50px; }
+#node-alice { top: 20px; left: 150px; }
+#node-bob { top: 80px; left: 150px; }
+#node-claire { top: 50px; left: 250px; }
+#node-john { top: 110px; left: 250px; }
+#node-tom { top: 80px; left: 350px; }
+
+.edge {
+    position: absolute;
+    height: 2px;
+    transform-origin: 0 0;
+}
+
+.edge.internal {
+    background: #0288d1; /* Синие линии для внутренних пар */
+}
+
+.edge.external {
+    background: #d32f2f; /* Красные пунктирные линии для внешних пар */
+    background-image: linear-gradient(to right, #d32f2f 50%, transparent 50%);
+    background-size: 10px 2px;
+}
+
+/* Рёбра (линии между узлами) */
+#edge-you-alice {
+    top: 65px;
+    left: 110px;
+    width: 40px;
+    transform: rotate(-45deg);
+}
+
+#edge-you-bob {
+    top: 65px;
+    left: 110px;
+    width: 40px;
+    transform: rotate(45deg);
+}
+
+#edge-alice-claire {
+    top: 35px;
+    left: 210px;
+    width: 40px;
+    transform: rotate(0deg);
+}
+
+#edge-bob-claire {
+    top: 95px;
+    left: 210px;
+    width: 40px;
+    transform: rotate(-180deg);
+}
+
+#edge-bob-john {
+    top: 95px;
+    left: 210px;
+    width: 40px;
+    transform: rotate(90deg);
+}
+
+#edge-claire-tom {
+    top: 65px;
+    left: 310px;
+    width: 40px;
+    transform: rotate(45deg);
+}
+
+#edge-john-tom {
+    top: 125px;
+    left: 310px;
+    width: 40px;
+    transform: rotate(-45deg);
 }
