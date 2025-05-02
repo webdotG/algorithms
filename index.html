@@ -136,6 +136,58 @@
         </div>
     </div>
     
+    <div class="algorithm-block" id="recursive-algorithm">
+        <h2>Рекурсивный поиск ключа в коробках</h2>
+        
+        <div class="description">
+            <div class="business-use">
+                <h4>Практическое применение:</h4>
+                <ul>
+                    <li>📁 Обход файловых систем и вложенных структур данных</li>
+                    <li>🌐 Парсинг HTML/XML документов</li>
+                    <li>🧮 Решение задач с вложенными зависимостями</li>
+                    <li>🤖 Алгоритмы искусственного интеллекта</li>
+                </ul>
+            </div>
+
+            <div class="math-notation">
+                <h4>Принцип работы:</h4>
+                <p>Алгоритм рекурсивно ищет ключ во вложенных массивах:</p>
+                <ul>
+                    <li><strong>Базовый случай:</strong> Если текущий элемент — строка и содержит слово "key" (регистронезависимо), возвращаем найденный ключ.</li>
+                    <li><strong>Рекурсивный случай:</strong> Если текущий элемент — массив, ищем ключ во всех его элементах.</li>
+                </ul>
+                <pre>Пример массива:
+["Коробка 1", ["Коробка 2", ["Коробка 3 key"]], ["Коробка 4"]]
+Результат: 🔑 Нашли ключ в Коробка 3 key!</pre>
+            </div>
+        </div>
+
+        <div class="code">
+            <pre><code id="recursive-code"></code></pre>
+        </div>
+
+        <div class="console">
+            <h2 class="console-title">findKeyInArray(<span class="param">arr</span>)</h2>
+            <p class="console-hint">Введите вложенный массив в формате: 
+                <code>["Коробка 1", ["Коробка 2", ["Коробка 3 key"]]]</code>
+            </p>
+            <div class="input-group">
+                <div class="function-call">
+                    <h3 class="console-title">findKeyInArray(</h3>
+                    <input type="text" id="recursive-input" 
+                           placeholder='[" ... ", [" ... key"]]' 
+                           class="console-input">
+                    <span class="console-title">)</span>
+                </div>
+                <button onclick="runRecursiveSearch()" class="console-button">
+                    <span class="button-text">Выполнить</span>
+                    <span class="button-icon">→</span>
+                </button>
+            </div>
+            <div class="output" id="recursive-output"></div>
+        </div>
+    </div>
     
     <div class="algorithm-block" id="merge-sort-algorithm">
         <h2>Сортировка слиянием - "Разделяй и властвуй"</h2>
@@ -190,9 +242,13 @@
         </div>
     </div>
     
+
+    
     <script src="search.js"></script>
     <script src="binary_script.js"></script>
     <script src="binary_algorithm.js"></script>
+    <script src="recursion_algorithm.js"></script>
+    <script src="recursion_script.js"></script>
     <script src="selection_sort_algorithm.js"></script>
     <script src="selection_sort_script.js"></script>
     <script src="merge_sort_algorithm.js"></script>
