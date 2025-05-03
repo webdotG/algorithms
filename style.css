@@ -500,3 +500,122 @@ svg {
     height: 210px;
     pointer-events: none;
 }
+
+.container_graf_about{
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.graf_about_paragraph{
+    font-size: var(--text-xs);
+    width: 120px;
+    text-align: center;
+}
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 30px);
+    grid-template-rows: 30px;
+    gap: 0;
+    position: relative;
+    margin: 20px 0;
+  }
+  .cell {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: white;
+  }
+  .cell-1 {
+    grid-column: 1;
+    background-color: #ff6347;
+  }
+  .cell-4 {
+    grid-column: 4;
+    background-color: #4682b4;
+  }
+  
+  .line, .line_revert, .line_none {
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    width: 60px;
+    height: 2px;
+    background-color: black;
+    z-index: 3;
+  }
+
+  .line::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;  
+    height: 10px; 
+    background-color: black;
+    clip-path: polygon(0 0, 0% 100%, 100% 50%); /* Острый треугольник вправо */
+  }
+  
+  .line_revert::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;    
+    border-bottom: 5px solid transparent; 
+    border-right: 10px solid black;      /* Остриё слева (используем border-right) */
+  }
+
+  .line_2{
+    position: absolute;
+    top: 30%;
+    left: 30px;
+    width: calc(20px * 3);
+    height: 2px;
+    background-color: black;
+    z-index: 3;
+  }
+
+  .line_2::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;    
+    border-bottom: 5px solid transparent; 
+    border-right: 10px solid black;     
+  }
+
+  .line_3{
+    position: absolute;
+    top: 60%;
+    left: 30px;
+    width: calc(20px * 3);
+    height: 2px;
+    background-color: black;
+    z-index: 3;
+  }
+
+  .line_3::before{
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;  
+    height: 10px; 
+    background-color: black;
+    clip-path: polygon(0 0, 0% 100%, 100% 50%); /* Острый треугольник вправо */
+
+  }

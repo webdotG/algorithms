@@ -23,45 +23,7 @@
 
     <div class="algorithm-block" id="binary-algorithm">
         <h2 id="binary-algorithm-title">Бинарный поиск</h2>
-
-        <div class="grid-container">
-            <div id="node-1-turquoise" class="node">1</div>
-            <div id="node-2-mint" class="node">2</div>
-            <div id="node-3-peach" class="node">3</div>
-            <div id="node-4-light-lavender" class="node">4</div>
-            <div id="node-5-pale-yellow" class="node">5</div>
-            <div id="node-6-plum" class="node">6</div>
-            <div id="node-7-pale-turquoise" class="node">7</div>
-            <div id="node-8-rose" class="node">8</div>
-            <svg>
-                <!-- Зелёный круг знакомства с центром в узле 1 -->
-                <circle cx="135" cy="120" r="90" fill="none" stroke="green" stroke-width="1"/>
-                <!-- Определение красной стрелки -->
-                <defs>
-                    <marker id="arrow" markerWidth="15" markerHeight="15" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-                        <path d="M0,0 L0,6 L9,3 z" fill="red"/>
-                    </marker>
-                </defs>
-                <!-- Красные рёбра со стрелками -->
-                <line x1="135" y1="135" x2="135" y2="195" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
-                <!-- 1 (5,5) → 2 (7,5) -->
-                <line x1="135" y1="135" x2="195" y2="75" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
-                <!-- 1 (5,5) → 3 (3,7) -->
-                <line x1="135" y1="135" x2="75" y2="75" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
-                <!-- 1 (5,5) → 4 (3,3) -->
-                <line x1="135" y1="195" x2="15" y2="165" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
-                <!-- 2 (7,5) → 6 (6,1) -->
-                <line x1="195" y1="75" x2="255" y2="15" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
-                <!-- 3 (3,7) → 7 (1,9) -->
-                <line x1="75" y1="75" x2="15" y2="15" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
-                <!-- 4 (3,3) → 5 (1,1) -->
-                <line x1="75" y1="75" x2="15" y2="165" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
-                <!-- 4 (3,3) → 6 (6,1) -->
-                <line x1="255" y1="15" x2="255" y2="135" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
-                <!-- 7 (1,9) → 8 (5,9) -->
-            </svg>
-            </div>
-                
+            
         <div class="description">
             <h4>Алгоритм работает только на отсортированном массиве.</h4>
             <div class="business-use">
@@ -435,34 +397,117 @@
 
             <h4 class="console-title">Основные понятия:</h4>
             <div class="math-notation">
-                <h4>Узлы (вершины):</h4>
-                <p>Это "точки" графа. Например, люди в социальной сети (вы, Алиса, Боб).</p>
-                <pre>Узел = объект или сущность (человек, город, сайт)</pre>
+                <h4>Узлы : </h4>
+                <p>Это "точки" графа. 
+                    <br>Например, люди в социальной Сети
+                </p>
+                <pre class="console-title">Узел = объект</pre>
 
-                <h4>Рёбра (связи):</h4>
-                <p>Это "линии" между узлами, показывающие отношения. Например, дружба между вами и Алисой.</p>
-                <pre>Ребро = связь между двумя узлами</pre>
+                <h4>Рёбра : </h4>
+                <p>Это "линии" между узлами, показывающие отношения.
+                    <br>Например, дружба между вами и Алисой.
+                </p>
+                <pre class="console-title">Ребро = связь между двумя узлами</pre>
 
-                <h4>Внутренние и внешние пары:</h4>
+                <h4>Внутренние и внешние пары : </h4>
                 <p>
-                    - <strong>Внутренняя пара</strong>: ребро, соединяющее узлы внутри одной группы (например, два друга в одной компании).<br>
-                    - <strong>Внешняя пара</strong>: ребро, соединяющее узлы из разных групп (например, друг из другой компании).
+                    - <strong>Внутренняя пара</strong>: например, два друга в одной компании.<br>
+                    - <strong>Внешняя пара</strong>: например, друг из другой компании.
                 </p>
                 <pre>Пример:
 - Внутренняя пара: Алиса ↔ Боб (оба в вашей компании)
 - Внешняя пара: Боб ↔ Том (Том из другой компании)</pre>
             </div>
 
-            <h4>Пример графа:</h4>
-            <p>Социальная сеть: вы дружите с Алисой и Бобом, Алиса дружит с Клэр, Боб дружит с Клэр и Джоном, а Клэр и Джон дружат с Томом.</p>
             <div class="graph-visualization">
-                <h4>Схема графа:</h4>
-  
-                <p>
-                    <strong>Легенда:</strong><br>
-                    - Синие линии: внутренние пары (внутри одной группы, например, ваша компания).<br>
-                    - Красные пунктирные линии: внешние пары (между разными группами).
-                </p>
+                <h3 class="console-title">Соседи</h3>
+        <div class="container_graf_about">
+        <div class="container_graf_about_element">
+        <p class="graf_about_paragraph"> 1  для  2 </p>
+            <div class="container">
+            <div class="cell cell-1">1</div>
+            <div class="cell cell-4">2</div>
+            <div class="line"></div>
+            </div>
+        <p class="graf_about_paragraph">Внутрений сосед</p>
+        </div>
+        <div>
+            <p class="graf_about_paragraph"> 1  для  2 </p>
+                <div class="container">
+                <div class="cell cell-1">1</div>
+                <div class="cell cell-4">2</div>
+                <div class="line_revert"></div>
+                </div>
+            <p class="graf_about_paragraph">Внешний сосед</p>
+        </div>
+        <div>
+            <p class="graf_about_paragraph"></p>
+                <div class="container">
+                <div class="cell cell-1">1</div>
+                <div class="cell cell-4">2</div>
+                <div class="line_none"></div>
+                </div>
+            <p class="graf_about_paragraph">Неаправленный граф</p>
+        </div>    
+        <div>
+            <p class="graf_about_paragraph"></p>
+                <div class="container">
+                <div class="cell cell-1">1</div>
+                <div class="cell cell-4">2</div>
+                <div class="line_2"></div>
+                <div class="line_3"></div>
+                </div>
+            <p class="graf_about_paragraph">Направленный граф</p>
+            </div>
+        </div>
+
+        <h3 class="console-title">Пример графа:</h3>    
+        <div class="math-notation">
+            <pre>
+1 знает про 2 , 3 , 4  
+2 знает про 6
+3 знает про 7
+7 знает про 8
+4 знает про 5 и 6
+        </pre>
+    </div>
+        <div class="grid-container">
+            <div id="node-1-turquoise" class="node">1</div>
+            <div id="node-2-mint" class="node">2</div>
+            <div id="node-3-peach" class="node">3</div>
+            <div id="node-4-light-lavender" class="node">4</div>
+            <div id="node-5-pale-yellow" class="node">5</div>
+            <div id="node-6-plum" class="node">6</div>
+            <div id="node-7-pale-turquoise" class="node">7</div>
+            <div id="node-8-rose" class="node">8</div>
+            <svg>
+                <!-- Зелёный круг знакомства с центром в узле 1 -->
+                <circle cx="135" cy="120" r="90" fill="none" stroke="green" stroke-width="1"/>
+                <!-- Определение красной стрелки -->
+                <defs>
+                    <marker id="arrow" markerWidth="15" markerHeight="15" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="red"/>
+                    </marker>
+                </defs>
+                <!-- Красные рёбра со стрелками -->
+                <line x1="135" y1="135" x2="135" y2="195" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 1 (5,5) → 2 (7,5) -->
+                <line x1="135" y1="135" x2="195" y2="75" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 1 (5,5) → 3 (3,7) -->
+                <line x1="135" y1="135" x2="75" y2="75" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 1 (5,5) → 4 (3,3) -->
+                <line x1="135" y1="195" x2="15" y2="165" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 2 (7,5) → 6 (6,1) -->
+                <line x1="195" y1="75" x2="255" y2="15" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 3 (3,7) → 7 (1,9) -->
+                <line x1="75" y1="75" x2="15" y2="15" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 4 (3,3) → 5 (1,1) -->
+                <line x1="75" y1="75" x2="15" y2="165" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 4 (3,3) → 6 (6,1) -->
+                <line x1="255" y1="15" x2="255" y2="135" stroke="blue" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- 7 (1,9) → 8 (5,9) -->
+            </svg>
+            </div>
             </div>
         </div>
     </div>
