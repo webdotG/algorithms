@@ -1,4 +1,4 @@
-function breadthFirstSearch(graph, start, target) {
+export function breadthFirstSearch(graph, start, target) {
     // Создаём граф как список смежности
     const adjList = {};
     graph.forEach(([from, to]) => {

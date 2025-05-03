@@ -51,14 +51,11 @@ function runBFS() {
     const output = document.getElementById('bfs-output');
     const inputText = input.value.trim();
 
-    // Очищаем предыдущий вывод
     output.innerHTML = '';
     output.className = 'output';
 
-    // Если поле пустое, выходим
     if (!inputText) return;
 
-    // Проверка формата: [[from,to],...], start, target
     const regex = /^\s*\[\s*\[.*\]\s*\]\s*,\s*([\wа-яА-Я]+)\s*,\s*([\wа-яА-Я]+)\s*$/;
     const match = inputText.match(regex);
 
@@ -72,40 +69,105 @@ function runBFS() {
     const target = match[2];
     let graph;
 
-    // Преобразуем входные данные в корректный JSON
     try {
-        // Извлекаем часть с графом
         const graphStrMatch = inputText.match(/^\s*(\[\s*\[.*\]\s*\])/);
         if (!graphStrMatch) throw new Error('Неверный формат графа');
 
         let graphStr = graphStrMatch[1];
-        // Заменяем неэкранированные слова на экранированные строки
         graphStr = graphStr.replace(/([\wа-яА-Я]+)(?=(,|\]))/g, '"$1"');
         
-        // Парсим граф
         graph = JSON.parse(graphStr);
-        if (!Array.isArray(graph) || graph.some(edge => edge.length !== 2 || typeof edge[0] !== 'string' || typeof edge[1] !== 'string')) {
+        if (!Array.isArray(graph) || graph.some(edge => edge.length !== 2)) {
             throw new Error('Граф должен содержать рёбра вида [from, to]');
         }
     } catch (e) {
-        output.innerHTML = `❌ Ошибка: неверный формат графа (${e.message})`;
+        output.innerHTML = `❌ Ошибка: ${e.message}`;
         output.classList.add('error');
         return;
     }
 
-    // Запускаем алгоритм
-    try {
-        const result = breadthFirstSearch(graph, start, target);
-        output.classList.add('show-result');
-        if (result.length === 0) {
-            output.classList.add('error');
-            output.innerHTML = `❌ Путь от <strong>${start}</strong> до <strong>${target}</strong> не существует`;
-        } else {
-            output.classList.add('success');
-            output.innerHTML = `✅ Найден путь: <strong>${result.join(' -> ')}</strong>`;
-        }
-    } catch (e) {
+    // Запускаем алгоритм с подробным объяснением
+    const result = breadthFirstSearch(graph, start, target);
+    output.classList.add('show-result');
+
+    if (result.length === 0) {
         output.classList.add('error');
-        output.innerHTML = `❌ Ошибка: ${e.message}`;
+        output.innerHTML = `❌ Путь от <strong>${start}</strong> до <strong>${target}</strong> не существует`;
+        return;
     }
+
+    // Формируем пошаговое объяснение
+    let explanation = `
+        <div class="algorithm-steps">
+            <h3>Пошаговое выполнение BFS (Breadth-First Search):</h3>
+            <ol>
+                <li><strong>Исходный граф социальных связей:</strong><br>
+                    ${graph.map(e => `${e[0]} знаком с ${e[1]}`).join(', ')}</li>
+                
+                <li><strong>Список смежности:</strong><br>
+                    ${JSON.stringify(buildAdjList(graph), null, 2).replace(/\n/g, '<br>').replace(/ /g, ' ')}</li>
+                
+                <li><strong>Поиск пути от "${start}" до "${target}":</strong>
+                    <ul>
+                        ${generateBFSSteps(graph, start, target).join('')}
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="result-section">
+            <h3>Кратчайший путь в социальных связях:</h3>
+            <strong>${result.join(' → ')}</strong> (${result.length-1} шагов)
+        </div>
+    `;
+
+    output.classList.add('success');
+    output.innerHTML = explanation;
+}
+
+// Вспомогательные функции
+function buildAdjList(graph) {
+    const adjList = {};
+    graph.forEach(([from, to]) => {
+        if (!adjList[from]) adjList[from] = [];
+        if (!adjList[to]) adjList[to] = [];
+        adjList[from].push(to);
+        adjList[to].push(from);
+    });
+    return adjList;
+}
+
+function generateBFSSteps(graph, start, target) {
+    const steps = [];
+    const adjList = buildAdjList(graph);
+    const visited = new Set([start]);
+    const queue = [start];
+    const previous = { [start]: null };
+    let level = 0;
+    
+    while (queue.length > 0) {
+        const levelSize = queue.length;
+        steps.push(`<li>Уровень ${level}: ${queue.join(', ')}</li>`);
+        
+        for (let i = 0; i < levelSize; i++) {
+            const current = queue.shift();
+            
+            if (current === target) {
+                steps.push(`<li style="color:green">Нашли цель "${target}" на уровне ${level}</li>`);
+                return steps;
+            }
+
+            adjList[current]?.forEach(neighbor => {
+                if (!visited.has(neighbor)) {
+                    visited.add(neighbor);
+                    previous[neighbor] = current;
+                    queue.push(neighbor);
+                    steps.push(`<li>  Добавляем "${neighbor}" (через "${current}")</li>`);
+                }
+            });
+        }
+        level++;
+    }
+    
+    return steps;
 }

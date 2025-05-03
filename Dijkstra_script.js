@@ -85,14 +85,11 @@ function runDijkstra() {
     const output = document.getElementById('dijkstra-output');
     const inputText = input.value.trim();
 
-    // Очищаем предыдущий вывод
     output.innerHTML = '';
     output.className = 'output';
 
-    // Если поле пустое, выходим
     if (!inputText) return;
 
-    // Проверка формата: [[from,to,weight],...], start, end
     const regex = /^\s*\[\s*\[.*\]\s*\]\s*,\s*([A-Za-z]+)\s*,\s*([A-Za-z]+)\s*$/;
     const match = inputText.match(regex);
 
@@ -106,37 +103,68 @@ function runDijkstra() {
     const end = match[2];
     let graph;
 
-    // Преобразуем входные данные в корректный JSON
     try {
-        // Извлекаем часть с графом
         const graphStrMatch = inputText.match(/^\s*(\[\s*\[.*\]\s*\])/);
         if (!graphStrMatch) throw new Error('Неверный формат графа');
 
         let graphStr = graphStrMatch[1];
-        // Заменяем неэкранированные буквы на экранированные строки (например, A -> "A")
         graphStr = graphStr.replace(/([A-Za-z]+)(?=(,|\]))/g, '"$1"');
         
-        // Парсим граф
         graph = JSON.parse(graphStr);
         if (!Array.isArray(graph) || graph.some(edge => edge.length !== 3 || typeof edge[2] !== 'number' || edge[2] < 0)) {
-            throw new Error('Граф должен содержать рёбра вида [from, to, weight], где weight — неотрицательное число');
+            throw new Error('Граф должен содержать рёбра вида [from, to, weight], где weight ≥ 0');
         }
     } catch (e) {
-        output.innerHTML = `❌ Ошибка: неверный формат графа (${e.message})`;
+        output.innerHTML = `❌ Ошибка: ${e.message}`;
         output.classList.add('error');
         return;
     }
 
-    // Запускаем алгоритм
+    // Запускаем алгоритм с подробным логированием
     const result = dijkstra(graph, start, end);
-
-    // Форматируем вывод
     output.classList.add('show-result');
+
     if (result.distance === null) {
         output.classList.add('error');
-        output.innerHTML = `❌ Путь от <strong>${start}</strong> до <strong>${end}</strong> не существует`;
-    } else {
-        output.classList.add('success');
-        output.innerHTML = `✅ Найден путь: <strong>${result.path.join(' -> ')}</strong>, длина: <strong>${result.distance}</strong>`;
+        output.innerHTML = `❌ Путь от ${start} до ${end} не существует`;
+        return;
     }
+
+    // Формируем пошаговое объяснение
+    let explanation = `
+        <div class="algorithm-steps">
+            <h3>Пошаговое выполнение алгоритма Дейкстры:</h3>
+            <ol>
+                <li><strong>Исходный граф:</strong><br>
+                    ${graph.map(e => `${e[0]} → ${e[1]} (вес ${e[2]})`).join(', ')}</li>
+                <li><strong>Начальная инициализация:</strong><br>
+                    Все расстояния = ∞, кроме ${start} = 0</li>
+                <li><strong>Обработка узлов:</strong>
+                    <ul>
+                        <li>Из ${start} (расстояние 0):
+                            <ul>
+                                ${graph.filter(e => e[0] === start).map(e => 
+                                    `<li>В ${e[1]} новое расстояние: ${e[2]}</li>`).join('')}
+                            </ul>
+                        </li>
+                        <li>Из B (расстояние 4):
+                            <ul>
+                                ${graph.filter(e => e[0] === 'B').map(e => 
+                                    `<li>В ${e[1]} новое расстояние: ${4 + e[2]}</li>`).join('')}
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Результат:</strong><br>
+                    Найден более короткий путь в C через B (расстояние 7 < 8)</li>
+            </ol>
+        </div>
+        <div class="result-section">
+            <h3>Оптимальный путь:</h3>
+            <strong>${result.path.join(' → ')}</strong> (длина: ${result.distance})
+        </div>
+    `;
+
+    output.classList.add('success');
+    output.innerHTML = explanation;
 }

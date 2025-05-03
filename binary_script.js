@@ -6,11 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
     while(low <= high) {
         const middle = Math.floor((low + high) / 2)
         const find = arr[middle]
+        
+        console.log(\`Диапазон [\${low},\${high}], средний индекс \${middle}, значение \${find}\`)
 
         if(find === item) return middle
 
         if(find > item) {
-            high = middle -1
+            high = middle - 1
         } else {
             low = middle + 1
         }
@@ -20,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }`;
     
     document.getElementById('binary-code').textContent = code;
+    Prism.highlightAll();
 });
 
 function runBinarySearch() {
@@ -27,19 +30,20 @@ function runBinarySearch() {
     const output = document.getElementById('binary-output');
     const inputText = input.value.trim();
 
-    // Очищаем предыдущий вывод
     output.innerHTML = '';
-    output.className = 'output'; // Сбрасываем классы
+    output.className = 'output';
 
-    // Если поле пустое, просто выходим
     if (!inputText) return;
 
+    // Более сложный пример для демонстрации
+    const complexExample = '[23,5,17,9,42,13,7,31,0,11,25,3,19,28,15], 19';
+    
     // Проверка формата
     const regex = /^\[([\d\s,]*)\]\s*,\s*(\d+)$/;
     const match = inputText.match(regex);
 
     if (!match) {
-        output.innerHTML = '❌ Ошибка: используйте формат [1,2,3], 5';
+        output.innerHTML = `❌ Ошибка: используйте формат [1,2,3], 5<br>Пример сложного массива: <code>${complexExample}</code>`;
         output.classList.add('error');
         return;
     }
@@ -47,7 +51,6 @@ function runBinarySearch() {
     const arrayStr = match[1];
     const target = parseInt(match[2]);
 
-    // Парсим массив
     let arr;
     try {
         arr = arrayStr.split(',')
@@ -61,19 +64,51 @@ function runBinarySearch() {
         return;
     }
 
-    // Сортируем массив
-    arr.sort((a, b) => a - b);
+    // Сортируем массив для бинарного поиска
+    const sortedArr = [...arr].sort((a, b) => a - b);
+    const result = binarySearch(sortedArr, target);
 
-    // Запускаем поиск
-    const result = binarySearch(arr, target);
-
-    // Форматируем вывод
+    // Формируем подробный вывод
     output.classList.add('show-result');
-    if (result === null || result === -1) {
+    if (result === null) {
         output.classList.add('error');
-        output.innerHTML = `❌ Элемент <strong>${target}</strong> не найден в массиве: [${arr.join(', ')}]`;
+        output.innerHTML = `
+            <div class="search-details">
+                <h3>Результат поиска:</h3>
+                <p>❌ Элемент <strong>${target}</strong> не найден</p>
+                
+                <h3>Отсортированный массив:</h3>
+                <div class="array-view">[${sortedArr.join(', ')}]</div>
+                
+                <h3>Исходный массив:</h3>
+                <div class="array-view">[${arr.join(', ')}]</div>
+                
+                <p class="hint">Бинарный поиск требует отсортированного массива</p>
+            </div>
+        `;
     } else {
         output.classList.add('success');
-        output.innerHTML = `✅ Найден элемент <strong>${target}</strong> с индексом ${result} в массиве: [${arr.join(', ')}]`;
+        output.innerHTML = `
+            <div class="search-details">
+                <h3>Результат поиска:</h3>
+                <p>✅ Найден элемент <strong>${target}</strong> на позиции ${result}</p>
+                
+                <h3>Визуализация массива:</h3>
+                <div class="array-view">
+                    ${sortedArr.map((num, i) => 
+                        `<span class="${i === result ? 'highlight' : ''}">${num}</span>`
+                    ).join(', ')}
+                </div>
+                
+                <h3>Шаги поиска:</h3>
+                <ol>
+                    <li>Отсортированный массив: [${sortedArr.join(', ')}]</li>
+                    <li>Ищем элемент ${target}</li>
+                    <li>Сначала проверяем середину массива</li>
+                    <li>Сравниваем и сужаем диапазон</li>
+                    <li>Найден на ${result+1}-й попытке</li>
+                </ol>
+            </div>
+        `;
     }
 }
