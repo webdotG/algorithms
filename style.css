@@ -618,3 +618,32 @@ svg {
     background-color: black;
     clip-path: polygon(0 0, 0% 100%, 100% 50%); /* Острый треугольник вправо */
   }
+
+  .line_short {
+    width: 30px;
+}
+
+.line_shifted {
+    left: 90px;
+}
+.line_long {
+    left: 30px;
+    width: 90px;
+    top: 2%;
+}
+.cell-1 {
+    grid-column: 1;
+    background-color: #ff6347;
+}
+
+.cell-3 {
+    grid-column: 3;
+    background-color: #4682b4;
+}
+
+.cell-5 {
+    grid-column: 5;
+    background-color: #32cd32;
+}
+
+        
