@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }`;
     
     document.getElementById('bfs-code').textContent = bfsCode;
+    Prism.highlightAll();
 });
 
 function runBFS() {
