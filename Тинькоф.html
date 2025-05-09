@@ -1,0 +1,42 @@
+Создание базы торгов за последний месяц
+
+    Цель: Собрать данные о ценах USD/RUB (или другой пары) за последний месяц, чтобы:
+        Определить среднюю волатильность.
+        Найти оптимальные пороги для покупки/продажи (0.5% или другие).
+        Протестировать стратегию на исторических данных.
+    Как собрать:
+        Используй метод getCandles из Tinkoff API для получения 1-часовых свечей за последние 30 дней.
+        Сохраняй данные в SQLite (легкая база данных для JS):
+            Поля: timestamp, open, high, low, close, volume.
+        Пример кода:
+        javascript
+
+const sqlite3 = require('sqlite3').verbose();
+const { OpenAPI } = require('tinkoff-invest-api-js-sdk');
+
+const api = new OpenAPI({ token: 'твой_токен', isSandbox: true });
+const db = new sqlite3.Database('trades.db');
+
+db.run(`CREATE TABLE IF NOT EXISTS candles (
+  timestamp TEXT,
+  open REAL,
+  high REAL,
+  low REAL,
+  close REAL,
+  volume INTEGER
+)`);
+
+async function fetchCandles(figi) {
+  const candles = await api.getCandles({
+    figi,
+    from: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    to: new Date(),
+    interval: '1hour'
+  });
+  candles.forEach(candle => {
+    db.run(`INSERT INTO candles (timestamp, open, high, low, close, volume) VALUES (?, ?, ?, ?, ?, ?)`,
+      [candle.time, candle.open, candle.high, candle.low, candle.close, candle.volume]);
+  });
+}
+
+fetchCandles('BBG0013HGFT4'); // USD/RUB

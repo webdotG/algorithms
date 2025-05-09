@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="https://www.svgrepo.com/show/391147/binary.svg">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<title>Алгоритмы</title>
+<!-- <link rel="stylesheet" href="./style.css"> -->
+<!-- Prism.js CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+</head>
+<body>
+<header class="header">
+    <div class="search-wrapper">
+        <input type="text" class="search-input" placeholder="Поиск по заголовкам...">
+        <div class="search-results"></div>
+    </div>
+
+<button id="nav-button" class="nav-button">Меню</button>
+<div id="nav-list" class="nav-list"></div>
+</header>
+
+
+    <h2>Табличный метод (матрицы/сетки)</h2>
+    <p> - используется, когда задача имеет два изменяющихся параметра</p>
+
+    Мемоизация - кэширование результатов рекурсивных вызовов
+
+    Метод восходящего ДП - итеративное заполнение таблицы от простых подзадач к сложным
+
+    Метод нисходящего ДП - рекурсия с запоминанием
+
+    Оптимизация памяти - часто можно хранить только часть таблицы
+
+
+Метод	Когда использовать	Примеры задач	Плюсы	Минусы
+Матрица (двумерный массив)
+    У нас два изменяющихся параметра:
+    i — количество рассмотренных предметов
+    w — текущий вес рюкзака
+    Два параметра, нужно восстановить решение	Рюкзак, Левенштейн, LCS	Понятность, полное решение	Требует O(n²) памяти
+    Когда выбирать матрицу:
+    Когда нужно восстановить решение (какие предметы выбраны)
+    Когда зависимость от двух параметров (например, длина двух строк в задаче Левенштейна)
+
+Одномерный массив, Оптимизированная задача о рюкзаке
+Тот же пример, но экономим память.
+
+    Почему одномерный массив?
+    Нам не нужно знать, какие предметы были выбраны, только максимальную ценность
+    Экономия памяти: O(W) вместо O(n×W)
+    Оптимизация памяти, один параметр
+    Экономия памяти	Сложнее восстановить решение
+    Визуализация (шаги для W=4):
+    После предмета 1 (1кг, 1$): [0, 1, 1, 1, 1]
+    После предмета 2 (2кг, 4$): [0, 1, 4, 5, 5]
+    После предмета 3 (3кг, 5$): [0, 1, 4, 5, 6]
+    Когда выбирать одномерный массив:
+    Когда достаточно значения, а не полного решения
+    Когда порядок обхода позволяет перезаписывать (здесь идём справа налево)
+
+Мемоизация	Естественная рекурсия, редкие вычисления	
+Фибоначчи, графы, игра с противником	
+Простота записи	Риск переполнения стека
+
+Совет: 
+Начинайте с матрицы для понимания, затем оптимизируйте.
+Для задач с деревьями или графами чаще подходит мемоизация.
+
+
+<h2>1. (0-1 Knapsack)1. Матрица (двумерный массив)</h2>
+    <h3>Бизнес-пример:</h3>
+     Оптимизация рекламного бюджета
+    
+    <h3>Задача:</h3>
+    Компания с бюджетом в $1M выбирает между рекламными каналами (TV, соцсети, SEO). Каждый канал имеет:
+        Стоимость (weight)
+        Ожидаемый доход (value)
+    
+    <h3>Решение:</h3>
+Метод: табличный (матрица) или оптимизированный одномерный массив
+<code>
+    function adCampaignOptimization(budget, channels) {
+        const n = channels.length;
+        const dp = Array(n+1).fill().map(() => Array(budget+1).fill(0));
+        
+        for (let i = 1; i <= n; i++) {
+            for (let w = 1; w <= budget; w++) {
+                if (channels[i-1].cost <= w) {
+                    dp[i][w] = Math.max(
+                        dp[i-1][w],
+                        channels[i-1].roi + dp[i-1][w - channels[i-1].cost]
+                    );
+                } else {
+                    dp[i][w] = dp[i-1][w];
+                }
+            }
+        }
+        
+        // Восстановление выбранных каналов
+        let res = [];
+        let w = budget;
+        for (let i = n; i > 0; i--) {
+            if (dp[i][w] !== dp[i-1][w]) {
+                res.push(channels[i-1].name);
+                w -= channels[i-1].cost;
+            }
+        }
+        
+        return { maxROI: dp[n][budget], channels: res };
+    }
+    
+    // Пример данных
+    const channels = [
+        { name: "TV", cost: 300000, roi: 900000 },
+        { name: "Соцсети", cost: 200000, roi: 500000 },
+        { name: "SEO", cost: 400000, roi: 800000 }
+    ];
+    console.log(adCampaignOptimization(1000000, channels));
+
+</code>
+
+2. Одномерный массив 
+Метод: линейный проход с хранением только текущего состояния
+
+<h3>Бизнес-пример:</h3>
+Оптимизация склада    
+Расчет оптимального количества курьеров для доставки
+Алгоритмы динамического ценообразования
+    
+<h3>Задача:</h3>
+Сеть магазинов хочет минимизировать количество поставок при пополнении запасов. 
+Есть ограничение на грузоподъёмность trucks (например, 10 тонн).
+<h3></h3>Решение:</h3>
+Почему одномерный массив?
+Нам важно только количество поставок, а не конкретный состав груза.
+<code>
+    function optimizeShipments(products, truckCapacity) {
+        const dp = Array(truckCapacity + 1).fill(Infinity);
+        dp[0] = 0;
+        
+        for (const product of products) {
+            for (let w = product.weight; w <= truckCapacity; w++) {
+                dp[w] = Math.min(dp[w], dp[w - product.weight] + 1);
+            }
+        }
+        
+        return dp[truckCapacity] === Infinity ? -1 : dp[truckCapacity];
+    }
+    
+    // Пример данных
+    const products = [
+        { name: "Холодильник", weight: 3 },
+        { name: "Телевизор", weight: 2 },
+        { name: "Ноутбук", weight: 1 }
+    ];
+    console.log(`Минимальное количество поставок: ${
+        optimizeShipments(products, 10)
+    }`); // 4 (3+3+3+1)
+</code>
+3. Задача о расстановке времени посещения мест (как в вашем примере)
+Метод: табличный или мемоизация, зависит от формулировки
+
+4. Задача о редакционном расстоянии (Левенштейна)
+Метод: табличный (матрица)
+
+5. Задача о наборе текста (Word Break)
+Метод: одномерный массив
+
+
+
+<h1>Основные методы динамического программирования</h1>
+
+    <h2>1. Табличный метод (матрицы/сетки)</h2>
+    <p>Используется, когда задача имеет два изменяющихся параметра.</p>
+    
+    <div class="business-case">
+        <h3>Бизнес-пример: Оптимизация рекламного бюджета</h3>
+        <p><strong>Задача:</strong> Компания с бюджетом в $1M выбирает между рекламными каналами (TV, соцсети, SEO). Каждый канал имеет стоимость и ожидаемый доход.</p>
+        
+        <pre><code class="language-javascript">function adCampaignOptimization(budget, channels) {
+    const n = channels.length;
+    const dp = Array(n + 1).fill().map(() => Array(budget + 1).fill(0));
+    
+    for (let i = 1; i <= n; i++) {
+        for (let w = 1; w <= budget; w++) {
+            if (channels[i-1].cost <= w) {
+                dp[i][w] = Math.max(
+                    dp[i-1][w],
+                    channels[i-1].roi + dp[i-1][w - channels[i-1].cost]
+                );
+            } else {
+                dp[i][w] = dp[i-1][w];
+            }
+        }
+    }
+    
+    // Восстановление выбранных каналов
+    let res = [];
+    let w = budget;
+    for (let i = n; i > 0; i--) {
+        if (dp[i][w] !== dp[i-1][w]) {
+            res.push(channels[i-1].name);
+            w -= channels[i-1].cost;
+        }
+    }
+    
+    return { maxROI: dp[n][budget], channels: res };
+}
+
+// Пример использования
+const channels = [
+    { name: "TV", cost: 300000, roi: 900000 },
+    { name: "Соцсети", cost: 200000, roi: 500000 },
+    { name: "SEO", cost: 400000, roi: 800000 }
+];
+console.log(adCampaignOptimization(1000000, channels));
+// Вывод: { maxROI: 1700000, channels: ["Соцсети", "SEO"] }</code></pre>
+    </div>
+
+    <h2>2. Одномерный массив</h2>
+    <p>Используется для оптимизации памяти, когда достаточно одного параметра.</p>
+    
+    <div class="business-case">
+        <h3>Бизнес-пример: Оптимизация логистики</h3>
+        <p><strong>Задача:</strong> Минимизировать количество поставок при пополнении запасов с ограничением по грузоподъемности.</p>
+        
+        <pre><code class="language-javascript">function optimizeShipments(products, truckCapacity) {
+    const dp = Array(truckCapacity + 1).fill(Infinity);
+    dp[0] = 0;
+    
+    for (const product of products) {
+        for (let w = product.weight; w <= truckCapacity; w++) {
+            dp[w] = Math.min(dp[w], dp[w - product.weight] + 1);
+        }
+    }
+    
+    return dp[truckCapacity] === Infinity ? -1 : dp[truckCapacity];
+}
+
+// Пример данных
+const products = [
+    { name: "Холодильник", weight: 3 },
+    { name: "Телевизор", weight: 2 },
+    { name: "Ноутбук", weight: 1 }
+];
+console.log(`Минимальное количество поставок: ${
+    optimizeShipments(products, 10)
+}`); // 4 (3+3+3+1)</code></pre>
+    </div>
+
+    <h2>3. Мемоизация (рекурсия с кешированием)</h2>
+    <p>Используется, когда задача естественно формулируется рекурсивно и имеет перекрывающиеся подзадачи.</p>
+    
+    <div class="business-case">
+        <h3>Бизнес-пример: Оценка рисков в страховании</h3>
+        <p><strong>Задача:</strong> Расчет вероятности каскадных страховых событий (ураган → повреждение крыши → затопление).</p>
+        
+        <pre><code class="language-javascript">function calculateRisk(event, cache = new Map()) {
+    if (cache.has(event)) return cache.get(event);
+    
+    // Базовые случаи
+    if (isBaseCase(event)) return baseProbability(event);
+    
+    let totalRisk = 0;
+    for (const nextEvent of getDependentEvents(event)) {
+        totalRisk += calculateRisk(nextEvent, cache) * getImpactFactor(event, nextEvent);
+    }
+    
+    cache.set(event, totalRisk);
+    return totalRisk;
+}
+
+// Пример использования
+const events = {
+    "Ураган": ["Повреждение крыши", "Разбитые окна"],
+    "Повреждение крыши": ["Затопление серверной"],
+    "Затопление серверной": ["Простой IT-систем"]
+};
+console.log(`Общий риск: ${
+    calculateRisk("Ураган").toFixed(2)
+}%`);</code></pre>
+    </div>
+
+    <h2>4. Метод восходящего ДП (Bottom-up)</h2>
+    <p>Итеративное заполнение таблицы от простых подзадач к сложным.</p>
+    
+    <div class="business-case">
+        <h3>Бизнес-пример: Планирование производства</h3>
+        <p><strong>Задача:</strong> Оптимизация производственного графика с минимальными затратами на переналадку оборудования.</p>
+        
+        <pre><code class="language-javascript">function optimizeProduction(products, changeoverCosts) {
+    const n = products.length;
+    const dp = Array(n).fill().map(() => Array(n).fill(0));
+    
+    // Заполняем диагональ (базовые случаи)
+    for (let i = 0; i < n; i++) {
+        dp[i][i] = products[i].baseCost;
+    }
+    
+    // Заполняем таблицу снизу вверх
+    for (let len = 2; len <= n; len++) {
+        for (let i = 0; i <= n - len; i++) {
+            const j = i + len - 1;
+            dp[i][j] = Infinity;
+            
+            for (let k = i; k < j; k++) {
+                const cost = dp[i][k] + dp[k+1][j] + 
+                             changeoverCosts[products[k].type][products[k+1].type];
+                if (cost < dp[i][j]) {
+                    dp[i][j] = cost;
+                }
+            }
+        }
+    }
+    
+    return dp[0][n-1];
+}</code></pre>
+    </div>
+
+    <h2>5. Метод нисходящего ДП (Top-down)</h2>
+    <p>Рекурсивное решение с запоминанием результатов.</p>
+    
+    <div class="business-case">
+        <h3>Бизнес-пример: Оптимизация инвестиционного портфеля</h3>
+        <p><strong>Задача:</strong> Выбор оптимального набора активов с учетом рисков и ограничений.</p>
+        
+        <pre><code class="language-javascript">function optimizePortfolio(assets, budget, riskLimit, memo = {}) {
+    const key = `${assets.length}-${budget}-${riskLimit}`;
+    if (memo[key]) return memo[key];
+    
+    if (budget <= 0 || riskLimit <= 0 || assets.length === 0) {
+        return { value: 0, selected: [] };
+    }
+    
+    const current = assets[0];
+    let withCurrent = { value: 0, selected: [] };
+    
+    if (current.cost <= budget && current.risk <= riskLimit) {
+        const remaining = optimizePortfolio(
+            assets.slice(1), 
+            budget - current.cost, 
+            riskLimit - current.risk, 
+            memo
+        );
+        withCurrent = {
+            value: current.value + remaining.value,
+            selected: [current, ...remaining.selected]
+        };
+    }
+    
+    const withoutCurrent = optimizePortfolio(
+        assets.slice(1), 
+        budget, 
+        riskLimit, 
+        memo
+    );
+    
+    const result = withCurrent.value > withoutCurrent.value ? withCurrent : withoutCurrent;
+    memo[key] = result;
+    return result;
+}</code></pre>
+    </div>
+
+    <h2>6. Оптимизация памяти</h2>
+    <p>Сокращение использования памяти путем хранения только необходимых данных.</p>
+    
+    <div class="business-case">
+        <h3>Бизнес-пример: Анализ временных рядов продаж</h3>
+        <p><strong>Задача:</strong> Прогнозирование продаж с учетом сезонности при ограниченных вычислительных ресурсах.</p>
+        
+        <pre><code class="language-javascript">function forecastSales(history, n) {
+    // Храним только последние 2 точки для экономии памяти
+    let prev = 0, current = 0;
+    
+    for (let i = 0; i < history.length; i++) {
+        const next = Math.max(
+            history[i] + (i > 0 ? history[i-1] * 0.3 : 0),
+            current * 1.1,
+            prev * 0.9
+        );
+        prev = current;
+        current = next;
+    }
+    
+    // Прогноз на n периодов вперед
+    const forecast = [];
+    for (let i = 0; i < n; i++) {
+        const next = Math.max(
+            current * 1.05,
+            prev * 0.95
+        );
+        forecast.push(next);
+        prev = current;
+        current = next;
+    }
+    
+    return forecast;
+}</code></pre>
+    </div>
+
+    <h2>Сравнительная таблица методов</h2>
+    <table>
+        <tr>
+            <th>Метод</th>
+            <th>Когда использовать</th>
+            <th>Бизнес-применение</th>
+            <th>Плюсы</th>
+            <th>Минусы</th>
+        </tr>
+        <tr>
+            <td>Матрица</td>
+            <td>Два параметра, нужно восстановить решение</td>
+            <td>Оптимизация рекламного бюджета</td>
+            <td>Понятность, полное решение</td>
+            <td>Требует O(n²) памяти</td>
+        </tr>
+        <tr>
+            <td>Одномерный массив</td>
+            <td>Оптимизация памяти, один параметр</td>
+            <td>Логистика и управление цепями поставок</td>
+            <td>Экономия памяти</td>
+            <td>Сложнее восстановить решение</td>
+        </tr>
+        <tr>
+            <td>Мемоизация</td>
+            <td>Естественная рекурсия, редкие вычисления</td>
+            <td>Оценка страховых рисков</td>
+            <td>Простота записи</td>
+            <td>Риск переполнения стека</td>
+        </tr>
+        <tr>
+            <td>Восходящий ДП</td>
+            <td>Когда известен порядок вычисления подзадач</td>
+            <td>Планирование производства</td>
+            <td>Эффективное использование памяти</td>
+            <td>Сложнее для некоторых рекурсивных задач</td>
+        </tr>
+        <tr>
+            <td>Нисходящий ДП</td>
+            <td>Когда естественна рекурсивная формулировка</td>
+            <td>Управление инвестиционным портфелем</td>
+            <td>Интуитивно понятный подход</td>
+            <td>Накладные расходы на рекурсию</td>
+        </tr>
+        <tr>
+            <td>Оптимизация памяти</td>
+            <td>При работе с большими данными</td>
+            <td>Анализ временных рядов</td>
+            <td>Минимальные требования к памяти</td>
+            <td>Ограниченная информация о прошлых состояниях</td>
+        </tr>
+    </table>
+
+
+    1. Табличный метод (матрицы/сетки)
+Функция: adCampaignOptimization
+
+Назначение: Оптимизация распределения рекламного бюджета между каналами для максимального ROI.
+
+Параметры:
+
+    budget (number) - общий доступный бюджет в долларах
+
+    channels (array) - массив объектов с характеристиками каналов:
+
+        name (string) - название канала
+
+        cost (number) - стоимость использования канала
+
+        roi (number) - ожидаемый возврат инвестиций
+
+Как работает:
+
+    Создает матрицу dp размером (количество каналов + 1) × (бюджет + 1)
+
+    Заполняет матрицу, вычисляя максимальный ROI для каждого возможного бюджета
+
+    Восстанавливает выбранные каналы, анализируя матрицу
+
+Возвращает:
+
+    Объект с двумя свойствами:
+
+        maxROI - максимально возможный возврат инвестиций
+
+        channels - массив названий выбранных каналов
+
+javascript
+
+function adCampaignOptimization(budget, channels) {
+    const n = channels.length;
+    const dp = Array(n + 1).fill().map(() => Array(budget + 1).fill(0));
+    
+    for (let i = 1; i <= n; i++) {
+        for (let w = 1; w <= budget; w++) {
+            if (channels[i-1].cost <= w) {
+                dp[i][w] = Math.max(
+                    dp[i-1][w],
+                    channels[i-1].roi + dp[i-1][w - channels[i-1].cost]
+                );
+            } else {
+                dp[i][w] = dp[i-1][w];
+            }
+        }
+    }
+    
+    // Восстановление выбранных каналов
+    let res = [];
+    let w = budget;
+    for (let i = n; i > 0; i--) {
+        if (dp[i][w] !== dp[i-1][w]) {
+            res.push(channels[i-1].name);
+            w -= channels[i-1].cost;
+        }
+    }
+    
+    return { maxROI: dp[n][budget], channels: res };
+}
+
+2. Одномерный массив
+Функция: optimizeShipments
+
+Назначение: Оптимизация количества поставок товаров с учетом ограничений по грузоподъемности.
+
+Параметры:
+
+    products (array) - массив объектов с товарами:
+
+        name (string) - название товара
+
+        weight (number) - вес товара в тоннах
+
+    truckCapacity (number) - максимальная грузоподъемность одной поставки
+
+Как работает:
+
+    Создает массив dp длиной (грузоподъемность + 1), заполненный Infinity
+
+    Инициализирует базовый случай (0 поставок для 0 тонн)
+
+    Для каждого товара обновляет массив, вычисляя минимальное количество поставок
+
+Возвращает:
+
+    Число - минимальное количество поставок или -1, если решение не найдено
+
+javascript
+
+function optimizeShipments(products, truckCapacity) {
+    const dp = Array(truckCapacity + 1).fill(Infinity);
+    dp[0] = 0;
+    
+    for (const product of products) {
+        for (let w = product.weight; w <= truckCapacity; w++) {
+            dp[w] = Math.min(dp[w], dp[w - product.weight] + 1);
+        }
+    }
+    
+    return dp[truckCapacity] === Infinity ? -1 : dp[truckCapacity];
+}
+
+3. Мемоизация (рекурсия с кешированием)
+Функция: calculateRisk
+
+Назначение: Расчет вероятности каскадных страховых событий.
+
+Параметры:
+
+    event (string) - название начального события
+
+    cache (Map) - кеш для хранения уже вычисленных результатов (необязательный)
+
+Как работает:
+
+    Проверяет наличие результата в кеше
+
+    Если базовый случай - возвращает базовую вероятность
+
+    Рекурсивно вычисляет риск для зависимых событий
+
+    Сохраняет результат в кеше перед возвратом
+
+Возвращает:
+
+    Число - общий риск в процентах
+
+javascript
+
+function calculateRisk(event, cache = new Map()) {
+    if (cache.has(event)) return cache.get(event);
+    
+    // Базовые случаи
+    if (isBaseCase(event)) return baseProbability(event);
+    
+    let totalRisk = 0;
+    for (const nextEvent of getDependentEvents(event)) {
+        totalRisk += calculateRisk(nextEvent, cache) * getImpactFactor(event, nextEvent);
+    }
+    
+    cache.set(event, totalRisk);
+    return totalRisk;
+}
+
+4. Метод восходящего ДП (Bottom-up)
+Функция: optimizeProduction
+
+Назначение: Оптимизация производственного графика с минимальными затратами.
+
+Параметры:
+
+    products (array) - массив продуктов для производства
+
+    changeoverCosts (object) - матрица затрат на переналадку между типами продуктов
+
+Как работает:
+
+    Создает матрицу dp для хранения минимальных затрат
+
+    Заполняет диагональ базовыми случаями (стоимость производства одного продукта)
+
+    Заполняет таблицу снизу вверх, вычисляя оптимальные подпоследовательности
+
+Возвращает:
+
+    Число - минимальные общие затраты на производство всех продуктов
+
+javascript
+
+function optimizeProduction(products, changeoverCosts) {
+    const n = products.length;
+    const dp = Array(n).fill().map(() => Array(n).fill(0));
+    
+    // Заполняем диагональ (базовые случаи)
+    for (let i = 0; i < n; i++) {
+        dp[i][i] = products[i].baseCost;
+    }
+    
+    // Заполняем таблицу снизу вверх
+    for (let len = 2; len <= n; len++) {
+        for (let i = 0; i <= n - len; i++) {
+            const j = i + len - 1;
+            dp[i][j] = Infinity;
+            
+            for (let k = i; k < j; k++) {
+                const cost = dp[i][k] + dp[k+1][j] + 
+                             changeoverCosts[products[k].type][products[k+1].type];
+                if (cost < dp[i][j]) {
+                    dp[i][j] = cost;
+                }
+            }
+        }
+    }
+    
+    return dp[0][n-1];
+}
+
+5. Метод нисходящего ДП (Top-down)
+Функция: optimizePortfolio
+
+Назначение: Оптимизация инвестиционного портфеля с учетом бюджета и риска.
+
+Параметры:
+
+    assets (array) - массив доступных активов
+
+    budget (number) - доступный бюджет
+
+    riskLimit (number) - максимально допустимый риск
+
+    memo (object) - объект для мемоизации (необязательный)
+
+Как работает:
+
+    Проверяет кеш на наличие готового решения
+
+    Обрабатывает базовые случаи (нет бюджета/риска/активов)
+
+    Рекурсивно вычисляет оптимальный портфель с учетом текущего актива
+
+    Сохраняет результат в кеше
+
+Возвращает:
+
+    Объект с двумя свойствами:
+
+        value - общая стоимость портфеля
+
+        selected - массив выбранных активов
+
+javascript
+
+function optimizePortfolio(assets, budget, riskLimit, memo = {}) {
+    const key = `${assets.length}-${budget}-${riskLimit}`;
+    if (memo[key]) return memo[key];
+    
+    if (budget <= 0 || riskLimit <= 0 || assets.length === 0) {
+        return { value: 0, selected: [] };
+    }
+    
+    const current = assets[0];
+    let withCurrent = { value: 0, selected: [] };
+    
+    if (current.cost <= budget && current.risk <= riskLimit) {
+        const remaining = optimizePortfolio(
+            assets.slice(1), 
+            budget - current.cost, 
+            riskLimit - current.risk, 
+            memo
+        );
+        withCurrent = {
+            value: current.value + remaining.value,
+            selected: [current, ...remaining.selected]
+        };
+    }
+    
+    const withoutCurrent = optimizePortfolio(
+        assets.slice(1), 
+        budget, 
+        riskLimit, 
+        memo
+    );
+    
+    const result = withCurrent.value > withoutCurrent.value ? withCurrent : withoutCurrent;
+    memo[key] = result;
+    return result;
+}
+
+6. Оптимизация памяти
+Функция: forecastSales
+
+Назначение: Прогнозирование продаж с учетом сезонности.
+
+Параметры:
+
+    history (array) - массив исторических данных о продажах
+
+    n (number) - количество периодов для прогноза
+
+Как работает:
+
+    Хранит только последние два значения для экономии памяти
+
+    Вычисляет прогноз на следующий период на основе комбинации:
+
+        текущих продаж
+
+        предыдущих продаж (с коэффициентом)
+
+        тренда (рост/падение)
+
+    Строит прогноз на n периодов вперед
+
+Возвращает:
+
+    Массив чисел - прогнозируемые значения продаж
+
+javascript
+
+function forecastSales(history, n) {
+    // Храним только последние 2 точки для экономии памяти
+    let prev = 0, current = 0;
+    
+    for (let i = 0; i < history.length; i++) {
+        const next = Math.max(
+            history[i] + (i > 0 ? history[i-1] * 0.3 : 0),
+            current * 1.1,
+            prev * 0.9
+        );
+        prev = current;
+        current = next;
+    }
+    
+    // Прогноз на n периодов вперед
+    const forecast = [];
+    for (let i = 0; i < n; i++) {
+        const next = Math.max(
+            current * 1.05,
+            prev * 0.95
+        );
+        forecast.push(next);
+        prev = current;
+        current = next;
+    }
+    
+    return forecast;
+}
+
+
+    <!-- Prism.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+</body>
+</html>
